@@ -24,6 +24,8 @@ extern crate cairo;
 extern crate wayland_sys;
 extern crate wayland_server;
 
+extern crate backtrace;
+
 #[macro_use]
 mod macros;
 mod convert;
@@ -178,7 +180,7 @@ fn main() {
     unsafe {signal::sigaction(signal::SIGINT, &sig_action).unwrap() };
 
     init_logs();
-    log_environment();
+    //log_environment();
     detect_proprietary();
     // This prepares wlc, doesn't run main loop until run_wlc is called
     let run_wlc = rustwlc::init()

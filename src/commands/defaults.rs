@@ -30,6 +30,8 @@ pub fn register_defaults() {
     register("way_cooler_restart", Arc::new(way_cooler_restart));
     register("dmenu_lua_dofile", Arc::new(dmenu_lua_dofile));
 
+    register("update_resolution", Arc::new(update_resolution));
+
     /// Generate switch_workspace methods and register them
     macro_rules! gen_switch_workspace {
         ( $($b:ident, $n:expr);+ ) => {
@@ -133,6 +135,9 @@ fn print_pointer() {
 fn way_cooler_quit() {
     info!("Closing way cooler!!");
     ::rustwlc::terminate();
+}
+
+fn update_resolution() {
 }
 
 fn dmenu_lua_dofile() {

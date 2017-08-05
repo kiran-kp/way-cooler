@@ -19,8 +19,27 @@ use ::render::screen_scrape::{read_screen_scrape_lock, scraped_pixels_lock,
 use registry::{self};
 use super::Mode;
 
+use backtrace::Backtrace;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Default;
+
+impl Default {
+    fn get_scale(&self) -> u32 {
+        let lock = registry::clients_read();
+        let client = lock.client(Uuid::nil()).unwrap();
+        let handle = registry::ReadHandle::new(&client);
+        handle.read("screen".into()).ok()
+            .map(|s| { println!("{:?}", s); s })
+            .map(|screen| screen.get("scale"))
+            .map(|s| { println!("{:?}", s); s })
+            .map(|scale| scale.map(|s| s.as_f64()))
+            .unwrap()
+            .unwrap_or(Some(1.0))
+            .unwrap()
+            as u32
+    }
+}
 
 #[allow(unused)]
 impl Mode for Default {
@@ -52,7 +71,7 @@ impl Mode for Default {
     fn output_resolution(&mut self, output: WlcOutput,
                                     old_size_ptr: Size, new_size_ptr: Size) {
         // Update the resolution of the output and its children
-        let scale = 1;
+        let scale = self.get_scale();
         output.set_resolution(new_size_ptr, scale);
         if let Ok(mut tree) = try_lock_tree() {
             tree.layout_active_of(ContainerType::Output)

@@ -26,6 +26,11 @@ way_cooler.programs = {
 -- These programs are only ran once util.program.spawn_programs is called.
 util.program.spawn_at_startup("way-cooler-bg", "--color " .. background)
 
+-- Screen settings
+way_cooler.screen = {
+    scale = 1
+}
+
 -- These options are applied to all windows.
 way_cooler.windows = {
   gaps = { -- Options for gaps

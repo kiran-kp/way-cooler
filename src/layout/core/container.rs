@@ -259,6 +259,7 @@ impl Container {
         match *self {
             Container::Root(_)  => None,
             Container::Output { ref handle, ref bar, .. } => {
+                let scale = handle.get_scale();
                 let mut resolution = handle.get_resolution()
                     .expect("Couldn't get output resolution");
                 let mut origin = Point { x: 0, y: 0 };
@@ -274,7 +275,7 @@ impl Container {
                 }
                 Some(Geometry {
                     origin: origin,
-                    size: resolution
+                    size: Size { w: resolution.w / scale, h: resolution.h / scale }
                 })
             },
             Container::Workspace { geometry, .. } |

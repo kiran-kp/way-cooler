@@ -72,11 +72,11 @@ pub trait Renderable {
         // This is done because wlc wraps if it goes beyond, which we don't
         // want for the borders.
         if geometry.origin.x + geometry.size.w as i32 > output_res.w as i32 {
-            let offset = (geometry.origin.x + geometry.size.w as i32) - output_res.w as i32;
+            let offset = (geometry.origin.x + (geometry.size.w / 2) as i32) - output_res.w as i32;
             geometry.origin.x -= offset as i32;
         }
         if geometry.origin.y + geometry.size.h as i32 > output_res.h as i32 {
-            let offset = (geometry.origin.y + geometry.size.h as i32) - output_res.h as i32;
+            let offset = (geometry.origin.y + (geometry.size.h / 2) as i32) - output_res.h as i32;
             geometry.origin.y -= offset as i32;
         }
         if geometry.origin.x < 0 {
